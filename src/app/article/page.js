@@ -1,27 +1,18 @@
-"use client";
 export const dynamic = 'force-dynamic';
-import axios from "axios";
-import React, { useEffect, useState } from "react";
 
 const BASE_URL = "https://api.json-generator.com";
 const API_URL = BASE_URL + "/templates/L0Wo66RzmkOi/data";
 
-export default function ArticlePage() {
-  const [article, setArticle] = useState({});
+export default async function ArticlePage() {
+  const data = await fetch(API_URL, {
+    method: "GET",
+    headers: {
+      Authorization: "Bearer qbxqx0vjd62pmwgi1eu31edj6kxqrshefotxgqso"
+    }
+  });
+  const dataJSON = await data.json();
+  const article = dataJSON[0];
 
-  useEffect(() => {
-    axios.get(API_URL, {
-      headers: {
-        Authorization: "Bearer qbxqx0vjd62pmwgi1eu31edj6kxqrshefotxgqso"
-      }
-    }).then(function (response) {
-      setArticle(response.data[0])
-      console.log(article);
-    })
-    .catch(function (error) {
-      console.error("Error fetching article", error);
-    })
-  }, []);
   return (
     <div>
       <h1>{article.title}</h1>
